@@ -38,6 +38,8 @@ function game.init()
     txt.multiplicator = creaTxt(txtMultiplicator, _fonts.texte, _ecran.w - _fonts.texte:getWidth(txtMultiplicator) - 15, 15)
     imgPetiteTomate = love.graphics.newImage("img/petiteTomate.png")
 
+    txt.music = creaTxt("F5 : Music on/off", _fonts.texte, 5, _ecran.h - _fonts.texte:getHeight("W"))
+
     --< SHOP >------------------------------------------------
 
     local imgPanelWood = love.graphics.newImage("img/panelWood.png")
@@ -112,6 +114,8 @@ end
 
 function game.draw()
     sprites.background:draw()
+
+    txt.music:print()
 
     --< Multiplicator >--------------------------------------------
     txt.multiplicator:print()

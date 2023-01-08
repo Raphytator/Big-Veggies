@@ -2,6 +2,7 @@ function init()
     initVariables()
     initRootFunctions()
     initFonts()
+    initMusicSFX()
     initScenes()
     initGame()
 end 
@@ -9,6 +10,7 @@ end
 function initVariables()
     _ecran = { w = 1280, h = 720 }
     _clic = false
+    _enableMusic = true
 end 
 
 function initRootFunctions()
@@ -23,6 +25,11 @@ function initFonts()
     _fonts.titre2 = love.graphics.newFont("font/HVD_Comic_Serif_Pro.otf", 32)
     _fonts.texte = love.graphics.newFont("font/HVD_Comic_Serif_Pro.otf", 24)
     _fonts.btn = love.graphics.newFont("font/HVD_Comic_Serif_Pro.otf", 36)
+end 
+
+function initMusicSFX()
+    _music = {}
+    _music.theme = love.audio.newSource("music/big-veggies2.mp3", "stream")
 end 
 
 function initScenes()
