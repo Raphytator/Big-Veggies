@@ -62,7 +62,7 @@ function game.init()
     txt.perk = {}
     txt.perk[1] = creaTxt("Increase power of the pump", _fonts.texte, 0, btn.perk[1].y + btn.perk[1].img:getHeight() + 12, {0,0,0,1}, _ecran.w, "center")
     txt.perk[2] = creaTxt("Increase time before harvesting", _fonts.texte, 0, btn.perk[1].y + btn.perk[1].img:getHeight() + 12, {0,0,0,1}, _ecran.w, "center")
-    txt.perk[3] = creaTxt("Auto-pump each 10 seconds", _fonts.texte, 0, btn.perk[1].y + btn.perk[1].img:getHeight() + 12, {0,0,0,1}, _ecran.w, "center")
+    txt.perk[3] = creaTxt("Auto-pump each 5 seconds", _fonts.texte, 0, btn.perk[1].y + btn.perk[1].img:getHeight() + 12, {0,0,0,1}, _ecran.w, "center")
 
 end 
 
@@ -78,7 +78,7 @@ function game.update(dt)
 
         if lvlPerk[3] > 0 then 
             timerWorker = timerWorker + dt 
-            if timerWorker >= 10 then 
+            if timerWorker >= 5 then 
                 timerWorker = 0
                 for i=1, lvlPerk[3] do 
                     game.pump()
@@ -201,7 +201,7 @@ function game.checkBtnPerk()
 
     btn.perk[1].value = lvlPerk[1] * math.ceil(600 * 1.8)
     btn.perk[2].value = lvlPerk[2] * math.ceil(850 * 1.8)
-    btn.perk[3].value = (lvlPerk[3] + 1) * math.ceil(1250 * 1.8)
+    btn.perk[3].value = (lvlPerk[3] + 1) * math.ceil(200 * 1.8)
 
     if argent < btn.perk[1].value then btn.perk[1].disable = true else btn.perk[1].disable = false end
     if argent < btn.perk[2].value then btn.perk[2].disable = true else btn.perk[2].disable = false end
