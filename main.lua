@@ -21,7 +21,6 @@ function love.draw()
 end 
 
 function love.keypressed(key)
-    if _sceneActu.keypressed ~= nil then _sceneActu.keypressed(key) end
     if key == "f12" then 
         love.event.quit()
     end

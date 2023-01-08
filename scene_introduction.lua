@@ -17,9 +17,9 @@ function intro.init()
     sprites.intro[3] = creaSprite(introImg[1], 0, 0)
     sprites.intro[4] = creaSprite(introImg[3], 0, 0)
     
-    local txt1 = "Honney, we need to buy a new house for our children !"
+    local txt1 = "Honney, we need to buy a new car !"
     local txt2 = "How much do we need ?"
-    local txt3 = "Around $600.000"
+    local txt3 = "Around $250.000"
     local txt4 = "Hum..... ok honney"
         
     txt.intro = {}

@@ -1,4 +1,144 @@
 --[[
+██████╗  ██████╗ ██╗   ██╗████████╗ ██████╗ ███╗   ██╗███████╗
+██╔══██╗██╔═══██╗██║   ██║╚══██╔══╝██╔═══██╗████╗  ██║██╔════╝
+██████╔╝██║   ██║██║   ██║   ██║   ██║   ██║██╔██╗ ██║███████╗
+██╔══██╗██║   ██║██║   ██║   ██║   ██║   ██║██║╚██╗██║╚════██║
+██████╔╝╚██████╔╝╚██████╔╝   ██║   ╚██████╔╝██║ ╚████║███████║
+╚═════╝  ╚═════╝  ╚═════╝    ╚═╝    ╚═════╝ ╚═╝  ╚═══╝╚══════╝
+                                                              
+]]
+
+function btnDraw(pBtn)
+    local color
+    --if pBtn.type == "img" then    
+        if pBtn.pressed then
+            pBtn.img = pBtn.imgDefault
+            color = {.4,.4,.4,1}
+        elseif pBtn.hover then
+            pBtn.img = pBtn.imgHover
+            if pBtn.hoverColor == nil then 
+                color = {1,1,0,1}
+            else 
+                color = pBtn.hoverColor
+            end
+        else
+            pBtn.img = pBtn.imgDefault
+            color = {.8,.8,.8,1}
+
+            if not pBtn.disable then 
+                color = {0,0,0,1}
+            else 
+                color = {.4, .4, .4, 1}
+            end
+        end
+
+        love.graphics.draw(pBtn.img, pBtn.x, pBtn.y, pBtn.r, pBtn.sx, pBtn.sy, pBtn.ox, pBtn.oy)
+        if pBtn.txt ~= nil then
+            love.graphics.setColor(color)
+            love.graphics.setFont(pBtn.font)
+            love.graphics.printf(pBtn.txt, pBtn.x, pBtn.y + pBtn.txtY, pBtn.img:getWidth(), "center")
+            love.graphics.setColor(1,1,1,1)
+        end 
+
+        if pBtn.type == "perk" then 
+            
+            love.graphics.setColor(color)
+            love.graphics.setFont(pBtn.font)
+            love.graphics.printf("lvl : "..pBtn.lvl, pBtn.x, pBtn.y + 60, pBtn.img:getWidth(), "center")
+            love.graphics.setFont(_fonts.texte)            
+            love.graphics.printf("$"..parseNumber(pBtn.value), pBtn.x, pBtn.y + 130, pBtn.img:getWidth(), "center")
+            love.graphics.setColor(1,1,1,1)
+        end
+
+    --end
+end
+
+function btnUpdate(pBtn, pEvent, pVar, pClic)               
+    if love.mouse.getX() >= pBtn.x - pBtn.ox and
+        love.mouse.getX() <= (pBtn.x - pBtn.ox + pBtn.w) and
+        love.mouse.getY() >= pBtn.y - pBtn.oy and
+        love.mouse.getY() <= (pBtn.y - pBtn.oy + pBtn.h) then
+                    
+        pBtn.hover = true
+    else
+        pBtn.hover = false
+        pBtn.pressed = false
+    end
+
+    local wichClic
+    if pClic ~= nil then 
+        wichClic = pClic
+    else 
+        wichClic = 1
+    end 
+
+    if pBtn.hover and love.mouse.isDown(wichClic) and not _clic and not pBtn.disable and
+        pBtn.pressed == false and pBtn.oldButtonState == false then
+        pBtn.pressed = true
+        pBtn.hover = false
+        _clic = true
+        
+        -- if pBtn.son ~= nil then
+        --     pBtn.son:stop()
+        --     pBtn.son:play()
+        -- end
+        
+        if pEvent ~= nil then 
+            if pVar ~= nil then 
+                pEvent(pVar[1], pVar[2], pVar[3], pVar[4])
+            else 
+                pEvent()
+            end
+        end
+    else
+        if pBtn.pressed and not love.mouse.isDown(wichClic) then pBtn.pressed = false end    
+    end
+    pBtn.oldButtonState = love.mouse.isDown(wichClic)
+end
+
+function creaBtn(pType, x, y, ...) 
+
+    local tab = {}
+    tab.x = x
+    tab.y = y  
+    tab.type = pType
+    tab.hover = false
+    tab.pressed = false
+    tab.disable = false
+    tab.oldButtonState = false
+    tab.r = 0
+    tab.sx = 1
+    tab.sy = 1
+    tab.ox = 0
+    tab.oy = 0   
+    tab.disable = false
+
+    local args = {...}
+
+    tab.imgDefault = args[1]
+    tab.imgHover = args[2]
+    tab.img = tab.imgDefault
+    tab.w = tab.imgDefault:getWidth()
+    tab.h = tab.imgDefault:getHeight()
+    tab.txt = args[3] or nil
+    tab.font = _fonts.btn
+    
+    if pType == "img" then
+        tab.txtY = (tab.img:getHeight() - tab.font:getHeight("W")) / 2
+    elseif pType == "perk" then
+        tab.txtY = 5
+        tab.lvl = 1
+        tab.value = 0
+    end
+    
+    -- Fonctions
+    tab.draw = btnDraw 
+    tab.update = btnUpdate          
+
+    return tab
+end
+
+--[[
 ███████╗██████╗ ██████╗ ██╗████████╗███████╗███████╗
 ██╔════╝██╔══██╗██╔══██╗██║╚══██╔══╝██╔════╝██╔════╝
 ███████╗██████╔╝██████╔╝██║   ██║   █████╗  ███████╗
